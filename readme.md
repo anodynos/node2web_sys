@@ -1,7 +1,6 @@
-**nodejs 'sys' core module.**
+'sys' nodejs core module browserify-ied with `--standalone sys`. Should support all module systems (commonjs, AMD & `window.sys`) - check browserify docs.
 
 From [node2web](http://github.com/anodynos/node2web) collection,
-via [browserify-CDN](http://wzrd.in/),
-exposed as 'sys' to [bower](http://bower.io) for *browser* usage.
+should/will be exposed as 'sys' to [bower](http://bower.io) for *browser* usage.
 
-Latest [browserify-CDN](http://wzrd.in/) reported **version: 'v0.10.12'**
+browserify version: '3.24.10', build date 'Sun Feb 02 2014 23:31:56 GMT+0200 (EET)'

@@ -1,12 +1,11 @@
-/** **nodejs 'sys' core module.**
+/** 'sys' nodejs core module browserify-ied with `--standalone sys`. Should support all module systems (commonjs, AMD & `window.sys`) - check browserify docs.
 
 From [node2web](http://github.com/anodynos/node2web) collection,
-via [browserify-CDN](http://wzrd.in/),
-exposed as 'sys' to [bower](http://bower.io) for *browser* usage.
+should/will be exposed as 'sys' to [bower](http://bower.io) for *browser* usage.
 
-Latest [browserify-CDN](http://wzrd.in/) reported **version: 'v0.10.12'** 
+browserify version: '3.24.10', build date 'Sun Feb 02 2014 23:31:56 GMT+0200 (EET)' 
 **/
-!function(e){"object"==typeof exports?module.exports=e():"function"==typeof define&&define.amd?define(e):"undefined"!=typeof window?window.sys=e():"undefined"!=typeof global?global.sys=e():"undefined"!=typeof self&&(self.sys=e())}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+!function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.sys=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -31,7 +30,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],2:[function(require,module,exports){
+},{}],2:[function(_dereq_,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -50,7 +49,8 @@ process.nextTick = (function () {
     if (canPost) {
         var queue = [];
         window.addEventListener('message', function (ev) {
-            if (ev.source === window && ev.data === 'process-tick') {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
                 ev.stopPropagation();
                 if (queue.length > 0) {
                     var fn = queue.shift();
@@ -85,17 +85,15 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],3:[function(require,module,exports){
+},{}],3:[function(_dereq_,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
-    && typeof arg.binarySlice === 'function'
-    ;
+    && typeof arg.readUInt8 === 'function';
 }
-
-},{}],4:[function(require,module,exports){
-var process=require("__browserify_process"),global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};// Copyright Joyent, Inc. and other Node contributors.
+},{}],4:[function(_dereq_,module,exports){
+(function (process,global){// Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the
@@ -334,6 +332,13 @@ function formatValue(ctx, value, recurseTimes) {
 
   if (ctx.showHidden) {
     keys = Object.getOwnPropertyNames(value);
+  }
+
+  // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+  if (isError(value)
+      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
   }
 
   // Some type of object without properties can be shortcutted.
@@ -613,7 +618,7 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-exports.isBuffer = require('./support/isBuffer');
+exports.isBuffer = _dereq_('./support/isBuffer');
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
@@ -657,7 +662,7 @@ exports.log = function() {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
-exports.inherits = require('inherits');
+exports.inherits = _dereq_('inherits');
 
 exports._extend = function(origin, add) {
   // Don't do anything if add isn't an object
@@ -674,8 +679,9 @@ exports._extend = function(origin, add) {
 function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
-
-},{"./support/isBuffer":3,"__browserify_process":2,"inherits":1}]},{},[4])
-(4)
+}).call(this,_dereq_("process_browser"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./support/isBuffer":3,"process_browser":2,"inherits":1}],5:[function(_dereq_,module,exports){
+module.exports = _dereq_('sys');
+},{"sys":4}]},{},[5])
+(5)
 });
-;
