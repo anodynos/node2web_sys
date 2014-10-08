@@ -3,4 +3,4 @@
 From [node2web](http://github.com/anodynos/node2web) collection,
 should/will be exposed as 'sys' to [bower](http://bower.io) for *browser* usage.
 
-browserify version: '3.46.1', build date 'Wed Oct 08 2014 17:33:37 GMT+0300 (EEST)'
+browserify version: '3.46.1', build date 'Wed Oct 08 2014 17:39:29 GMT+0300 (EEST)'
